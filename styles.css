@@ -1,0 +1,22 @@
+body {
+	margin: 0;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.login-box {
+  padding: 20px;
+  background-color: lightgray;
+  border: black 1px solid;
+}
+
+.login-button-bar {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
