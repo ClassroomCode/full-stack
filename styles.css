@@ -51,12 +51,16 @@ h1 {
 }
 
 .login-box {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5px;
   padding: 20px;
   background-color: lightgray;
   border: black 1px solid;
 }
 
 .login-button-bar {
+  grid-column: span 2;
   display: flex;
   justify-content: center;
   margin-top: 15px;
