@@ -1,4 +1,6 @@
-﻿namespace Playground
+﻿using System.Collections;
+
+namespace Playground
 {
     internal class Program
     {
@@ -24,7 +26,7 @@
                 }
             }
 
-            var evens = nums.ToArray();
+            var evens = nums.Where(n => n % 2 == 0);
 
             foreach (int even in evens)
             {
