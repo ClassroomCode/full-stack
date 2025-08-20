@@ -8,6 +8,8 @@ builder.Services.AddDbContext<TodoDb>(opt =>
 
 var app = builder.Build();
 
+app.MapGet("/todoitems", (TodoDb db) => db.Todos);
+
 using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
