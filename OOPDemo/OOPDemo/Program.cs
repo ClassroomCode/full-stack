@@ -17,17 +17,10 @@
             emp.Salary = 100000;
             people.Add(emp);
 
-            for (int i = 0; i < people.Count; i++)
-            {
-                Person person = people[i];
-                Console.WriteLine(person.FullName);
-            }
-            /*
             foreach (Person x in people)
             {
                 Console.WriteLine(x.FullName);
             }
-            */
         }
     }
 }
