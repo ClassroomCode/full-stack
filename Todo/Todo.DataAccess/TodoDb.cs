@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Todo.Entities;
 
-namespace Todo.API;
+namespace Todo.DataAccess;
 
 public class TodoDb : DbContext
 {
