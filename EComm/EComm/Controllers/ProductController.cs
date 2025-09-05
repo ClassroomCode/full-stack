@@ -21,4 +21,10 @@ public class ProductController(Repository db) : ControllerBase
         if (product is null) return NotFound();
         return Ok(product);
     }
+
+    [HttpPatch("product/{id}")]
+    public async Task<IActionResult> UpdateProduct(Product product)
+    {
+        // update the name of the product with an id of {id}
+    }
 }
