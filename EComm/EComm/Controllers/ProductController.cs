@@ -13,4 +13,11 @@ public class ProductController(Repository db) : ControllerBase
         var products = db.GetAllProducts();
         return products;
     }
+
+    [HttpGet("product/{id}")]
+    public Product GetProduct(int id)
+    {
+        var product = db.GetProduct(id);
+        return product;
+    }
 }
