@@ -1,3 +1,5 @@
+using EComm.DataAccess;
+using EComm.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EComm.Controllers;
@@ -5,9 +7,11 @@ namespace EComm.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    [HttpGet("test")]
-    public string Test()
+    [HttpGet("products")]
+    public List<Product> GetAllProducts()
     {
-        return "Hello, World!";
+        var r = new Repository();
+        var products = r.GetAllProducts();
+        return products;
     }
 }
