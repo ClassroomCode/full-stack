@@ -22,15 +22,11 @@ internal class TodoDb : DbContext, ITodoDb
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<TodoItem>> GetAllTodos()
-    {
-        return await Todos.ToListAsync();
-    }
+    public async Task<IEnumerable<TodoItem>> GetAllTodos() => 
+        await Todos.ToListAsync();
 
-    public async Task<TodoItem?> GetTodo(int id)
-    {
-        return await Todos.FindAsync(id);
-    }
+    public async Task<TodoItem?> GetTodo(int id) =>
+        await Todos.FindAsync(id);
 
     public Task<bool> UpdateTodo(TodoItem todo)
     {
