@@ -4,8 +4,7 @@ using Todo.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<TodoDb>(opt =>
-    opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddScoped<ITodoDb>(_ => TodoDbFactory.Create());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
@@ -19,13 +18,14 @@ var app = builder.Build();
 
 app.UseOpenApi();
 
-app.MapGet("/todoitems", async (TodoDb db) => await db.Todos.ToListAsync());
+app.MapGet("/todoitems", async (ITodoDb db) => await db.GetAllTodos());
 
-app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
-    await db.Todos.FindAsync(id) is TodoItem todo
+app.MapGet("/todoitems/{id}", async (int id, ITodoDb db) =>
+    await db.GetTodo(id) is TodoItem todo
         ? Results.Ok(todo)
         : Results.NotFound());
 
+/*
 using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
@@ -34,5 +34,6 @@ using (var serviceScope = app.Services.CreateScope())
     db.Todos.Add(new TodoItem { Id = 2, Name = "Two", IsComplete = true });
     await db.SaveChangesAsync();
 }
+*/
 
 app.Run();
