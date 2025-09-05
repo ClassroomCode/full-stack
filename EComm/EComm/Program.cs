@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<Repository>(_ => 
-    new Repository());
+    new Repository(builder.Configuration.GetConnectionString("ConnStr")!));
 
 var app = builder.Build();
 
