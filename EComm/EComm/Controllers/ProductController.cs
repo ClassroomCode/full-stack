@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EComm.Controllers;
 
 [ApiController]
-public class ProductController : ControllerBase
+public class ProductController(Repository db) : ControllerBase
 {
     [HttpGet("products")]
     public List<Product> GetAllProducts()
     {
-        var r = new Repository();
-        var products = r.GetAllProducts();
+        var products = db.GetAllProducts();
         return products;
     }
 }
