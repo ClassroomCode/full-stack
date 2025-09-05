@@ -15,9 +15,10 @@ public class ProductController(Repository db) : ControllerBase
     }
 
     [HttpGet("product/{id}")]
-    public Product GetProduct(int id)
+    public IActionResult GetProduct(int id)
     {
         var product = db.GetProduct(id);
-        return product;
+        if (product is null) return NotFound();
+        return Ok(product);
     }
 }

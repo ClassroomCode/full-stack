@@ -23,8 +23,21 @@ public class Repository(string connStr)
         return retVal;
     }
 
-    public Product GetProduct(int id)
+    public Product? GetProduct(int id)
     {
-        return new Product();
+        Product? retVal = null;
+        using var conn = new SqlConnection(connStr);
+        using var cmd = new SqlCommand("SELECT * FROM Products WHERE ProductID=@id", conn);
+        cmd.Parameters.AddWithValue("id", id);
+        conn.Open();
+        using var rdr = cmd.ExecuteReader();
+        if (rdr.Read())
+        {
+            var product = new Product();
+            product.ProductID = (int)rdr["ProductID"];
+            product.ProductName = (string)rdr["ProductName"];
+            retVal = product;
+        }
+        return retVal;
     }
 }
