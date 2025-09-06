@@ -40,4 +40,26 @@ public class Repository(string connStr)
         }
         return retVal;
     }
+
+    public async Task<bool> UpdateProduct(Product product)
+    {
+        using var conn = new SqlConnection(connStr);
+        using var cmd = new SqlCommand("UPDATE Products SET ProductName=@name WHERE ProductID=@id", conn);
+        cmd.Parameters.AddWithValue("id", product.ProductID);
+        cmd.Parameters.AddWithValue("name", product.ProductName);
+        await conn.OpenAsync();
+        int numRows = await cmd.ExecuteNonQueryAsync();
+        
+        return (numRows == 1);
+    }
+
+    public async Task AddProduct(Product product)
+    {
+        using var conn = new SqlConnection(connStr);
+        using var cmd = new SqlCommand("INSERT INTO Products (ProductName) VALUES (@name); SELECT SCOPE_IDENTITY();", conn);
+        cmd.Parameters.AddWithValue("name", product.ProductName);
+        await conn.OpenAsync();
+        object newID = (await cmd.ExecuteScalarAsync())!;
+        product.ProductID = Convert.ToInt32(newID);
+    }
 }

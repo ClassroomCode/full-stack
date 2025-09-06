@@ -23,8 +23,19 @@ public class ProductController(Repository db) : ControllerBase
     }
 
     [HttpPatch("product/{id}")]
-    public async Task<IActionResult> UpdateProduct(Product product)
+    public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
-        // update the name of the product with an id of {id}
+        product.ProductID = id;
+        var r = await db.UpdateProduct(product);
+        if (!r) return NotFound();
+        return NoContent(); 
+    }
+
+    [HttpPost("product")]
+    public async Task<IActionResult> AddProduct(Product product)
+    {
+        await db.AddProduct(product);
+        return CreatedAtAction("GetProduct", 
+            new { id = product.ProductID }, product);
     }
 }
