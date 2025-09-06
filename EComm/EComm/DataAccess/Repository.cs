@@ -59,7 +59,9 @@ public class Repository(string connStr)
         using var cmd = new SqlCommand("INSERT INTO Products (ProductName) VALUES (@name); SELECT SCOPE_IDENTITY();", conn);
         cmd.Parameters.AddWithValue("name", product.ProductName);
         await conn.OpenAsync();
-        object newID = (await cmd.ExecuteScalarAsync())!;
+        object? newID = (await cmd.ExecuteScalarAsync());
+        if (newID is null) throw new ApplicationException("Database fail");
+
         product.ProductID = Convert.ToInt32(newID);
     }
 }
