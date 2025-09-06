@@ -1,7 +1,5 @@
 ﻿using EComm.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System.Reflection.Metadata;
 
 namespace EComm.DataAccess;
 
