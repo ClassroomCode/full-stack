@@ -70,4 +70,27 @@ public class ProductController(EFRepository db) : ControllerBase
         //return CreatedAtAction("GetProduct", 
         //    new { id = product.ProductID }, product);
     }
+
+    [HttpDelete("product/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var existingProduct = await db.Products.FindAsync(id);
+        if (existingProduct is null) return NotFound();
+
+        db.Products.Remove(existingProduct);
+
+        try
+        {
+            await db.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            return BadRequest(new { msg = ex.InnerException?.Message });
+        }
+
+        return NoContent();
+    }
 }
