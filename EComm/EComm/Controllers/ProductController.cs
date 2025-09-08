@@ -9,6 +9,7 @@ namespace EComm.Controllers;
 public class ProductController(EFRepository db) : ControllerBase
 {
     [HttpGet("products")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<Product>> GetAllProducts()
     {
         //return await db.Products
@@ -22,6 +23,9 @@ public class ProductController(EFRepository db) : ControllerBase
     }
 
     [HttpGet("product/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetProduct(int id)
     {
         var product = await db.Products.FindAsync(id);
@@ -34,6 +38,9 @@ public class ProductController(EFRepository db) : ControllerBase
     }
 
     [HttpPatch("product/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
         var existingProduct = await db.Products.FindAsync(id);
@@ -50,6 +57,8 @@ public class ProductController(EFRepository db) : ControllerBase
     }
 
     [HttpPost("product")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AddProduct(Product product)
     {
         db.Products.Add(product);
