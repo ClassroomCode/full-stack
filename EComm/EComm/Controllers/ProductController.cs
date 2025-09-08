@@ -81,7 +81,9 @@ public class ProductController(EFRepository db) : ControllerBase
         if (existingProduct is null) return NotFound();
 
         db.Products.Remove(existingProduct);
+        await db.SaveChangesAsync();
 
+        /*
         try
         {
             await db.SaveChangesAsync();
@@ -90,6 +92,7 @@ public class ProductController(EFRepository db) : ControllerBase
         {
             return BadRequest(new { msg = ex.InnerException?.Message });
         }
+        */
 
         return NoContent();
     }
