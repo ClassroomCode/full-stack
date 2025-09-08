@@ -1,5 +1,4 @@
 ﻿using EComm.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
 namespace EComm.DataAccess;
@@ -63,5 +62,14 @@ public class Repository(string connStr)
         if (newID is null) throw new ApplicationException("Database fail");
 
         product.ProductID = Convert.ToInt32(newID);
+    }
+
+    public async Task DeleteProduct(Product product)
+    {
+        using var conn = new SqlConnection(connStr);
+        using var cmd = new SqlCommand("DELETE FROM Products WHERE ProductID=@id", conn);
+        cmd.Parameters.AddWithValue("id", product.ProductID);
+        await conn.OpenAsync();
+        await cmd.ExecuteNonQueryAsync();
     }
 }

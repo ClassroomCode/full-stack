@@ -13,10 +13,12 @@ public class ProductController(EFRepository db) : ControllerBase
     public async Task<List<Product>> GetAllProducts()
     {
         //return await db.Products
-        //    .FromSql($"SELECT * FROM Products")
+        //    .FromSql($"SELECT * FROM Products ORDER BY ProductID")
         //    .ToListAsync();
 
-        return await db.Products.AsNoTracking().ToListAsync();
+        return await db.Products
+            .OrderBy(p => p.ProductName)
+            .AsNoTracking().ToListAsync();
         
         //var products = await db.GetAllProducts();
         //return products;
