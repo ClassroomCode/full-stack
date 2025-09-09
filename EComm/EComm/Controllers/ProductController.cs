@@ -1,12 +1,13 @@
 using EComm.DataAccess;
 using EComm.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EComm.Controllers;
 
 [ApiController]
-public class ProductController(EFRepository db) : ControllerBase
+public class ProductController(ILogger<ProductController> logger, EFRepository db) : ControllerBase
 {
     [HttpGet("products")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -74,6 +75,7 @@ public class ProductController(EFRepository db) : ControllerBase
     }
 
     [HttpDelete("product/{id}")]
+    [Authorize(Policy = "AdminsOnly")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -84,6 +86,8 @@ public class ProductController(EFRepository db) : ControllerBase
 
         db.Products.Remove(existingProduct);
         await db.SaveChangesAsync();
+
+        logger.LogCritical($"Product Deleted ({existingProduct.ProductName})");
 
         /*
         try
