@@ -15,6 +15,21 @@ builder.Services.AddDbContext<EFRepository>(options =>
 //builder.Services.AddScoped<Repository>(_ => 
 //    new Repository(builder.Configuration.GetConnectionString("ConnStr")!));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhostAnyPort", builder =>
+    {
+        builder.SetIsOriginAllowed(origin =>
+        {
+            Uri uri = new Uri(origin);
+            return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+        })
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
+    });
+});
+
 builder.Services.AddAuthentication()
     .AddScheme<AuthenticationSchemeOptions, MyCustomAuthHandler>
         ("MyCustomAuth", options => { });
@@ -29,6 +44,8 @@ var app = builder.Build();
 app.UseExceptionHandler("/error");
 
 app.MapOpenApi();
+
+app.UseCors("AllowLocalhostAnyPort");
 
 app.UseAuthentication();
 app.UseAuthorization();
