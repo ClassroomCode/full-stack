@@ -52,7 +52,7 @@ public class ProductController(ILogger<ProductController> logger, EFRepository d
         existingProduct.ProductName = product.ProductName;
         existingProduct.UnitPrice = product.UnitPrice;
         await db.SaveChangesAsync();
-        return NoContent();
+        return NoContent(); 
 
         //product.ProductID = id;
         //var r = await db.UpdateProduct(product);
