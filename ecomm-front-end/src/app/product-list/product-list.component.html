@@ -1,0 +1,17 @@
+<h3>EComm Products</h3>
+@if (hasError) {
+    <p>Unable to fetch products</p>
+}
+@else if (products.length === 0) {
+    <p>Fetching products...</p>
+}
+@else {
+    <table>
+        @for (product of products; track product.productID) {
+            <tr>
+                <td>{{product.productName}}</td>
+                <td>{{product.unitPrice | currency}}</td>
+            </tr>
+        }
+    </table>
+} 
