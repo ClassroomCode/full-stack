@@ -50,6 +50,7 @@ public class ProductController(ILogger<ProductController> logger, EFRepository d
         if (existingProduct is null) return NotFound();
 
         existingProduct.ProductName = product.ProductName;
+        existingProduct.UnitPrice = product.UnitPrice;
         await db.SaveChangesAsync();
         return NoContent();
 
