@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export class Product {
@@ -25,16 +25,20 @@ export class ProductsService {
     return this.http.get<Product>(this.baseUrl + `/product/${id}` );
   }
 
-  deleteBook( id: number ): Observable<any> {
-    // TODO: need to add auth header
-    return this.http.delete<Product>(this.baseUrl + `/product/${id}` );
+  deleteProduct( id: number ): Observable<any> {
+    const httpOptions = { //  Create options object
+      headers: new HttpHeaders({ //  Create HttpHeaders
+        'Authorization': `Basic YWJjMTIz` // Example Auth header
+      })
+    };
+    return this.http.delete<Product>(this.baseUrl + `/product/${id}`, httpOptions);
   }
 
-  addBook( product: Product ): Observable<any> {
+  addProduct( product: Product ): Observable<any> {
     return this.http.post<Product>(this.baseUrl + '/product', product);
   }
 
-  updateBook( product: Product ): Observable<any> {
-    return this.http.put<Product>(this.baseUrl + `/product/${product.productID}`, product);
+  updateProduct( product: Product ): Observable<any> {
+    return this.http.patch<Product>(this.baseUrl + `/product/${product.productID}`, product);
   }
 }

@@ -28,8 +28,15 @@ namespace EComm
                 return Task.FromResult(AuthenticateResult.Fail("Invalid authentication scheme"));
             }
             string encodedApiKey = authHeaderValue.Substring(6);
-            string apiKey = Encoding.UTF8.GetString(
+            string apiKey = "";
+            try
+            {
+                apiKey = Encoding.UTF8.GetString(
                 Convert.FromBase64String(encodedApiKey));
+            } catch
+            {
+                return Task.FromResult(AuthenticateResult.Fail("Invalid API key"));
+            }
 
             if (apiKey != "abc123")
             {

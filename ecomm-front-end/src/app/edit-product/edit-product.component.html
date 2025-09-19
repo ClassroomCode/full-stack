@@ -1,1 +1,6 @@
-<p>edit-product works!</p>
+<h3>Update the Product</h3>
+@if (product != undefined) {
+    <input type="text" [(ngModel)]="product.productName">
+    <input type="number" [(ngModel)]="product.unitPrice">
+    <button (click)="updateProduct()">Save</button>
+}
